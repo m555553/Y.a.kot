@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أحمد ياقوت للتصوير السينمائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        header h1 {
+            color: #38bdf8;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        /* شريط أزرار التنقل بين الأقسام */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.9);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .tab-btn:hover {
+            color: #38bdf8;
+            border-color: #38bdf8;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            border-color: #38bdf8;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+
+        /* إخفاء وإظهار الأقسام */
+        .section-content {
+            display: none;
+        }
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #38bdf8;
+        }
+        input::placeholder {
+            color: #64748b;
+        }
+        button.action-btn {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+        button.action-btn:hover {
+            background: linear-gradient(135deg, #0369a1, #075985);
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+        }
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            overflow-x: auto;
+            display: block;
+        }
+        th, td {
+            border: 1px solid #334155;
+            padding: 12px;
+            text-align: center;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+        td {
+            background-color: rgba(15, 23, 42, 0.5);
+        }
+        .sub-section {
+            margin-bottom: 25px;
+        }
+        .sub-section h4 {
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-right: 4px solid #38bdf8;
+            padding-right: 8px;
+        }
+        .empty-msg {
+            text-align: center;
+            color: #64748b;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🎬 أحمد ياقوت للتصوير السينمائي</h1>
+        <p>نظام إدارة الحجوزات والأفراح والألبومات الاحترافي</p>
+    </header>
+
+    <!-- أزرار التنقل بين الأقسام -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('weddingSection', this)">💍 حجز الفرح</button>
+        <button class="tab-btn" onclick="switchTab('albumSection', this)">📖 حجز الألبوم</button>
+        <button class="tab-btn" onclick="switchTab('reportsSection', this)">📊 قسم الحجوزات الشامل</button>
+    </div>
+
+    <!-- القسم الأول: حجز الفرح -->
+    <div id="weddingSection" class="section-content active">
+        <div class="card">
+            <h3>تسجيل حجز فرح جديد</h3>
+            <div class="form-grid">
+                <input type="text" id="wClient" placeholder="اسم العميل">
+                <input type="text" id="wPhone" placeholder="رقم التليفون">
+                <input type="text" id="wAddress" placeholder="العنوان">
+                <input type="text" id="wPhotographer" placeholder="اسم المصور">
+                <input type="date" id="wDate">
+                <input type="number" id="wTotal" placeholder="المبلغ المطلوب">
+                <input type="number" id="wDeposit" placeholder="العربون المدفوع">
+                <input type="text" id="wCameras" placeholder="الكاميرات المطلوبة">
+            </div>
+            <button class="action-btn" onclick="addWeddingBooking()">حجز الفرح</button>
+        </div>
+    </div>
+
+    <!-- القسم الثاني: حجز الألبوم -->
+    <div id="albumSection" class="section-content">
+        <div class="card">
+            <h3>تسجيل حجز ألبوم جديد</h3>
+            <div class="form-grid">
+                <input type="text" id="aClient" placeholder="اسم العميل">
+                <input type="text" id="aPhone" placeholder="رقم الموبايل">
+                <input type="text" id="aSize" placeholder="المقاس (اكتبه بنفسك مثلاً: 30×40)">
+                <input type="text" id="aPhotographer" placeholder="اسم المصور">
+                <input type="number" id="aTotal" placeholder="المبلغ كامل">
+                <input type="number" id="aDeposit" placeholder="العربون">
+                <input type="number" id="aPhotosCount" placeholder="عدد الصور">
+            </div>
+            <button class="action-btn" onclick="addAlbumBooking()">حجز الألبوم</button>
+        </div>
+    </div>
+
+    <!-- القسم الثالث: قسم الحجوزات الشامل (مقسوم لاثنين: أفراح وألبومات) -->
+    <div id="reportsSection" class="section-content">
+        <div class="card" style="border: 2px solid #0284c7;">
+            <h3>📊 قسم الحجوزات الشاملة</h3>
+            
+            <!-- فرع 1: حجوزات الأفراح -->
+            <div class="sub-section">
+                <h4>حجوزات الأفراح</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>العميل</th>
+                            <th>التليفون</th>
+                            <th>العنوان</th>
+                            <th>المصور</th>
+                            <th>التاريخ</th>
+                            <th>المبلغ</th>
+                            <th>العربون</th>
+                            <th>الكاميرات</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weddingTableBody">
+                        <tr><td colspan="9" class="empty-msg">لا توجد حجوزات أفراح مسجلة حالياً</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- فرع 2: حجوزات الألبومات -->
+            <div class="sub-section" style="margin-top: 30px;">
+                <h4>حجوزات الألبومات</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>العميل</th>
+                            <th>الموبايل</th>
+                            <th>المقاس</th>
+                            <th>المصور</th>
+                            <th>المبلغ كامل</th>
+                            <th>العربون</th>
+                            <th>عدد الصور</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="albumTableBody">
+                        <tr><td colspan="8" class="empty-msg">لا توجد حجوزات ألبومات مسجلة حالياً</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // وظيفة التنقل بين الأقسام بالأزرار
+    function switchTab(sectionId, btnElement) {
+        // إخفاء كل الأقسام
+        document.querySelectorAll('.section-content').forEach(section => {
+            section.classList.remove('active');
+        });
+        // إزالة التحديد عن كل الأزرار
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        // إظهار القسم المطلوب وتنشيط الزرار بتاعّه
+        document.getElementById(sectionId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    // استرجاع البيانات المحفوظة مسبقاً إن وجدت
+    let weddings = JSON.parse(localStorage.getItem('weddings')) || [];
+    let albums = JSON.parse(localStorage.getItem('albums')) || [];
+
+    // إضافة حجز فرح
+    function addWeddingBooking() {
+        let client = document.getElementById('wClient').value;
+        let phone = document.getElementById('wPhone').value;
+        let address = document.getElementById('wAddress').value;
+        let photographer = document.getElementById('wPhotographer').value;
+        let date = document.getElementById('wDate').value;
+        let total = document.getElementById('wTotal').value;
+        let deposit = document.getElementById('wDeposit').value;
+        let cameras = document.getElementById('wCameras').value;
+
+        if (!client || !phone) {
+            alert('يرجى كتابة اسم العميل ورقم التليفون على الأقل!');
+            return;
+        }
+
+        let newWedding = { id: Date.now(), client, phone, address, photographer, date, total, deposit, cameras };
+        weddings.push(newWedding);
+        saveAndRender();
+
+        alert('تم الحجز بنجاح');
+
+        // تفريغ الحقول
+        document.getElementById('wClient').value = '';
+        document.getElementById('wPhone').value = '';
+        document.getElementById('wAddress').value = '';
+        document.getElementById('wPhotographer').value = '';
+        document.getElementById('wDate').value = '';
+        document.getElementById('wTotal').value = '';
+        document.getElementById('wDeposit').value = '';
+        document.getElementById('wCameras').value = '';
+    }
+
+    // إضافة حجز ألبوم
+    function addAlbumBooking() {
+        let client = document.getElementById('aClient').value;
+        let phone = document.getElementById('aPhone').value;
+        let size = document.getElementById('aSize').value;
+        let photographer = document.getElementById('aPhotographer').value;
+        let total = document.getElementById('aTotal').value;
+        let deposit = document.getElementById('aDeposit').value;
+        let photosCount = document.getElementById('aPhotosCount').value;
+
+        if (!client || !phone) {
+            alert('يرجى كتابة اسم العميل ورقم الموبايل على الأقل!');
+            return;
+        }
+
+        let newAlbum = { id: Date.now(), client, phone, size, photographer, total, deposit, photosCount };
+        albums.push(newAlbum);
+        saveAndRender();
+
+        alert('تم الحجز بنجاح');
+
+        // تفريغ الحقول
+        document.getElementById('aClient').value = '';
+        document.getElementById('aPhone').value = '';
+        document.getElementById('aSize').value = '';
+        document.getElementById('aPhotographer').value = '';
+        document.getElementById('aTotal').value = '';
+        document.getElementById('aDeposit').value = '';
+        document.getElementById('aPhotosCount').value = '';
+    }
+
+    // حذف حجز فرح
+    function deleteWedding(id) {
+        weddings = weddings.filter(w => w.id !== id);
+        saveAndRender();
+    }
+
+    // حذف حجز ألبوم
+    function deleteAlbum(id) {
+        albums = albums.filter(a => a.id !== id);
+        saveAndRender();
+    }
+
+    // حفظ في الذاكرة وتحديث الجداول
+    function saveAndRender() {
+        localStorage.setItem('weddings', JSON.stringify(weddings));
+        localStorage.setItem('albums', JSON.stringify(albums));
+        renderTables();
+    }
+
+    // عرض البيانات في الجداول
+    function renderTables() {
+        let wBody = document.getElementById('weddingTableBody');
+        let aBody = document.getElementById('albumTableBody');
+
+        // جدول الأفراح
+        if (weddings.length === 0) {
+            wBody.innerHTML = `<tr><td colspan="9" class="empty-msg">لا توجد حجوزات أفراح مسجلة حالياً</td></tr>`;
+        } else {
+            wBody.innerHTML = '';
+            weddings.forEach(w => {
+                wBody.innerHTML += `
+                    <tr>
+                        <td>${w.client}</td>
+                        <td>${w.phone}</td>
+                        <td>${w.address || '-'}</td>
+                        <td>${w.photographer || '-'}</td>
+                        <td>${w.date || '-'}</td>
+                        <td>${w.total || 0} ج.م</td>
+                        <td>${w.deposit || 0} ج.م</td>
+                        <td>${w.cameras || '-'}</td>
+                        <td><button class="btn-danger" onclick="deleteWedding(${w.id})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // جدول الألبومات
+        if (albums.length === 0) {
+            aBody.innerHTML = `<tr><td colspan="8" class="empty-msg">لا توجد حجوزات ألبومات مسجلة حالياً</td></tr>`;
+        } else {
+            aBody.innerHTML = '';
+            albums.forEach(a => {
+                aBody.innerHTML += `
+                    <tr>
+                        <td>${a.client}</td>
+                        <td>${a.phone}</td>
+                        <td>${a.size || '-'}</td>
+                        <td>${a.photographer || '-'}</td>
+                        <td>${a.total || 0} ج.م</td>
+                        <td>${a.deposit || 0} ج.م</td>
+                        <td>${a.photosCount || 0}</td>
+                        <td><button class="btn-danger" onclick="deleteAlbum(${a.id})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+    }
+
+    // تحميل الجداول عند فتح الصفحة
+    renderTables();
+</script>
+
+</body>
+</html>
